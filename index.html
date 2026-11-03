@@ -1,17 +1,32 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta name="color-scheme" content="dark light">
-    <title>Yanchu Zhang</title>
+    <meta name="description" content="Yanchu Zhang, PhD student in Statistics at Lund University. Research in statistical theory, methodology and machine learning.">
+
+    <title>Yanchu Zhang · PhD Student in Statistics, Lund University</title>
+
+    <!-- Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Apply saved theme before the page renders to avoid a flash -->
+    <script>
+        try {
+            document.documentElement.dataset.theme =
+                localStorage.getItem("theme") || "dark";
+        } catch (e) {
+            document.documentElement.dataset.theme = "dark";
+        }
+    </script>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="dark-mode">
+<body>
 
     <button
         id="theme-toggle"
@@ -19,7 +34,7 @@
         aria-label="Switch to light mode"
         title="Switch to light mode"
     >
-        <span id="theme-icon" aria-hidden="true">☀</span>
+        <span id="theme-icon" aria-hidden="true">☀︎</span>
     </button>
 
     <main>
@@ -31,6 +46,8 @@
                     src="images/photo.jpg"
                     alt="Yanchu Zhang"
                     class="profile-photo"
+                    width="150"
+                    height="180"
                 >
 
                 <div class="profile-info">
@@ -39,15 +56,15 @@
 
                     <p class="subtitle">
                         PhD Student in Statistics
-                        <span class="dot">·</span>
+                        <span class="dot" aria-hidden="true">·</span>
                         Lund University
                     </p>
 
                     <p class="links">
                         <a href="mailto:yanchu.zhang@stat.lu.se">Email</a>
-                        <span class="dot">·</span>
+                        <span class="dot" aria-hidden="true">·</span>
                         <a href="https://github.com/YanchuZhang">GitHub</a>
-                        <span class="dot">·</span>
+                        <span class="dot" aria-hidden="true">·</span>
                         <a href="https://www.linkedin.com/in/yanchuzhang">LinkedIn</a>
                     </p>
 
@@ -63,29 +80,30 @@
                 I am a PhD student in Statistics at
                 <a href="https://www.lunduniversity.lu.se/">Lund University</a>,
                 where I recently started my doctoral studies.
-
                 My research interests broadly lie in statistics and machine learning,
                 with a particular focus on statistical theory and methodology.
+            </p>
 
+            <p>
                 I obtained both my Master's and Bachelor's degrees in Mathematics
                 from the
                 <a href="https://www.tum.de/">Technical University of Munich (TUM)</a>
                 in 2026.
-
                 Before starting my PhD, I worked as a research assistant at the
                 Chair of Mathematical Statistics at TUM, where I studied
                 non-Gaussian causal models with latent confounding under the
                 supervision of
                 <a href="https://www.math.cit.tum.de/math/personen/professuren/drton-mathias/">Prof. Mathias Drton</a>.
-
                 In addition to my academic experience, I have interned at
                 <a href="https://www.deloitte.com/">Deloitte</a>
                 and
                 <a href="https://www.munichre.com/">Munich Re</a>,
                 working on generative AI and data analytics.
+            </p>
 
+            <p>
                 Outside academia, I enjoy exploring restaurants, cooking,
-                and having 
+                and having
                 <a href="https://en.wikipedia.org/wiki/Coffee_in_Sweden#Fika">fika</a>
                 with interesting conversations in the afternoon.
             </p>
@@ -96,34 +114,28 @@
 
             <h2>Teaching</h2>
 
-            <p>
-                <ul>
+            <ul>
                 <li>Advanced Machine Learning (<a href="https://www.lunduniversity.lu.se/study/statistics-advanced-machine-learning-STAN52">STAN52</a>)</li>
                 <li>Bayesian Methods (<a href="https://www.lunduniversity.lu.se/study/statistics-bayesian-methods-STAE02">STAE02</a>)</li>
-                </ul>
-            </p>
+            </ul>
 
         </section>
 
     </main>
 
     <script>
+        const root = document.documentElement;
         const toggle = document.getElementById("theme-toggle");
         const icon = document.getElementById("theme-icon");
-        const body = document.body;
-
-        // Dark mode is the default.
-        const savedTheme = localStorage.getItem("theme");
-        const initialTheme = savedTheme || "dark";
 
         function setTheme(theme) {
             const isDark = theme === "dark";
 
-            body.classList.toggle("dark-mode", isDark);
-            body.classList.toggle("light-mode", !isDark);
+            root.dataset.theme = theme;
 
             // Show the icon for switching to the other theme.
-            icon.textContent = isDark ? "☀" : "☾";
+            // The trailing U+FE0E forces text style (no colorful emoji on iOS).
+            icon.textContent = isDark ? "☀︎" : "☾︎";
 
             const label = isDark
                 ? "Switch to light mode"
@@ -133,14 +145,16 @@
             toggle.setAttribute("title", label);
         }
 
-        setTheme(initialTheme);
+        setTheme(root.dataset.theme);
 
         toggle.addEventListener("click", () => {
-            const isDark = body.classList.contains("dark-mode");
-            const nextTheme = isDark ? "light" : "dark";
+            const next = root.dataset.theme === "dark" ? "light" : "dark";
 
-            localStorage.setItem("theme", nextTheme);
-            setTheme(nextTheme);
+            try {
+                localStorage.setItem("theme", next);
+            } catch (e) {}
+
+            setTheme(next);
         });
     </script>
 
